@@ -30,13 +30,29 @@ namespace WindowsFormsApp1
 
         private void Add_PCI_Button_Click(object sender, EventArgs e)
         {
+
             string path = "C:\\Users\\Cell_Idf\\Desktop\\Calc\\PCI_db.txt";
-            using (StreamWriter sw = new StreamWriter (File.Open(path, System.IO.FileMode.Append)))
-            {
-                sw.WriteLine(Name_Site_INT.Text + "," + cell_id_INT.Text + "," + PCI_S1_INT.Text + "," + PCI_S2_INT.Text + "," + PCI_S3_INT.Text);
-                sw.Close();
-            }
-            MessageBox.Show("Your PCI is adding");
+
+                string line;
+                StreamReader file = new StreamReader(path);
+                while ((line = file.ReadLine()) != null)
+                {
+                    string[] tokens = line.Split(',');
+                    if (tokens[1] == cell_id_INT.Text)
+                    {
+                        MessageBox.Show("This Site is exist");
+                        return;
+                    }
+                }
+                file.Close();
+                using (StreamWriter sw = new StreamWriter(File.Open(path, System.IO.FileMode.Append)))
+                {
+
+                    sw.WriteLine(Name_Site_INT.Text + "," + cell_id_INT.Text + "," + PCI_S1_INT.Text + "," + PCI_S2_INT.Text + "," + PCI_S3_INT.Text);
+                    sw.Close();
+                }
+                MessageBox.Show("Your PCI is adding");
+           
         }
     }
 }

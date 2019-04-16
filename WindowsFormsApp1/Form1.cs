@@ -61,9 +61,41 @@ namespace WindowsFormsApp1
 
         private void PCIClac(object sender, EventArgs e)
         {
-            int value_cellid = int.Parse(CellidGrop.Text);
-            int value_subcell = int.Parse(SubCellid.Text);
-            PciOutput.Text = ( (3* value_cellid) + value_subcell).ToString();
+            SubCellid.ForeColor = Color.Black;
+            PciOutput.ForeColor = Color.Black;
+            CellidGrop.ForeColor = Color.Black;
+            if (PciOutput.Text == "" && CellidGrop.Text != "" && SubCellid.Text != "")
+            {
+                int value_cellid = int.Parse(CellidGrop.Text);
+                int value_subcell = int.Parse(SubCellid.Text);
+                PciOutput.Text = ((3 * value_cellid) + value_subcell).ToString();
+                PciOutput.ForeColor = Color.Red;
+            }
+            else if (CellidGrop.Text == "" && PciOutput.Text != "" && SubCellid.Text != "")
+            {
+                int value1 = int.Parse(PciOutput.Text);
+                int value2 = int.Parse(SubCellid.Text);
+                if ((value1 - value2) % 3 != 0)
+                {
+                    MessageBox.Show("Invalid Parameter - PCI/Subcell");
+                }
+                else
+                {
+                    CellidGrop.Text = ((value1 - value2) / 3).ToString();
+                    CellidGrop.ForeColor = Color.Red;
+                }
+            }
+            else if (SubCellid.Text == "" && PciOutput.Text != "" && CellidGrop.Text != "")
+            {
+                int value1 = int.Parse(PciOutput.Text);
+                int value2 = int.Parse(CellidGrop.Text);
+                SubCellid.Text = (value1 - (value2 * 3)).ToString();
+                SubCellid.ForeColor = Color.Red;
+            }
+            else
+            {
+                MessageBox.Show("Invalid Parameter Count");
+            }
         }
 
         private void Add_New_Site(object sender, EventArgs e)
